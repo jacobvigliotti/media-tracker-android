@@ -20,13 +20,14 @@
      Part 1 is the link — I will verify the review exists on GitHub.
      Part 2 is your written assessment — what you actually looked at and what you found. -->
 
-**Reviewed:** *(pod mate's name)*
-**Link to my review:**
+**Reviewed:** *Dylan Browne*
+**Link to my review: https://github.com/DylanBrowneMetrostate/media-tracker-android/pull/1**
 
 ### What I Looked At
 
 <!-- Walk through the code you reviewed. What was the PR trying to do? Which files or
      functions did you focus on? -->
+The PR contained a single line update in the MainActivity.kt file. The purpose of this change was to update from the default themeing to the one specified in the wireframe.
 
 ### What I Noticed
 
@@ -34,10 +35,14 @@
      done well that you want to call out? "I looked at the ViewModel and everything seemed fine"
      is not specific enough. Name the thing you noticed and explain why it matters. -->
 
+I noticed he did not use parentheses after declaring the theme which were used in the demo. I tested and both appear to be valid syntax. 
+
 ### Comments I Left
 
 <!-- Briefly summarize the comments you left on the PR. If you left a positive comment,
      say what it was. If you left a suggestion, say what you suggested and why. -->
+
+The same comments above calling out the use of parentheses. 
 
 ---
 
@@ -57,7 +62,7 @@ I now understand how to navigate Android Studio and do basic mobile development.
 <!-- Be honest. This is the most useful part of the reflection for me — it tells me where to
      spend more time in class. You will not lose points for being confused. -->
 
-JetPack Compose and Kotlin
+JetPack Compose and Kotlin are new to me. I will need to get used to the syntax and study the documentation to learn how everything connects.
 
 ---
 
