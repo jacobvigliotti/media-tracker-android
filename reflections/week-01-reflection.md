@@ -1,7 +1,7 @@
-# Week {{N}} Reflection
+# Week 01 Reflection
 
-**Name:**
-**Date:**
+**Name: Jake Vigliotti**
+**Date: 05-21-2026**
 
 ---
 
@@ -10,7 +10,7 @@
 <!-- Paste a link to your commits for this week. The easiest way: go to your repo on GitHub,
      click "commits", and copy the URL after filtering by your name or branch. -->
 
-**Link:**
+**Link: https://github.com/jacobvigliotti/media-tracker-android/commits/week-01?author=jacobvigliotti**
 
 ---
 
@@ -47,12 +47,17 @@
      what was confusing before, what made it make sense, and how you'd explain it to someone else.
      There are no wrong answers here. -->
 
+I now understand how to navigate Android Studio and do basic mobile development. Device emulation seems to be crucial to seeing your changes in real time. The preview annotations will also be important for previewing your layouts.
+
+
 ---
 
 ## One Thing I'm Still Confused About
 
 <!-- Be honest. This is the most useful part of the reflection for me — it tells me where to
      spend more time in class. You will not lose points for being confused. -->
+
+JetPack Compose and Kotlin
 
 ---
 
