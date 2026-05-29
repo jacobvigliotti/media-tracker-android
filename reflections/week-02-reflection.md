@@ -35,14 +35,14 @@ The PR contained a single line update in the MainActivity.kt file. The purpose o
      done well that you want to call out? "I looked at the ViewModel and everything seemed fine"
      is not specific enough. Name the thing you noticed and explain why it matters. -->
 
-I noticed he did not use parentheses after declaring the theme which were used in the demo. I tested and both appear to be valid syntax. 
+All changed files were consistent with the changes made during class session. I only noticed one peculiar change that I was not expecting which was an import statement removing the MaterialTheme from the MainActivity.kt file. It's not clear why this change was made and could potentially introduce a bug.
 
 ### Comments I Left
 
 <!-- Briefly summarize the comments you left on the PR. If you left a positive comment,
      say what it was. If you left a suggestion, say what you suggested and why. -->
 
-The same comments above calling out the use of parentheses. 
+I called out the removed import statement, questioning the purpose of this change.
 
 ---
 
@@ -52,8 +52,7 @@ The same comments above calling out the use of parentheses.
      what was confusing before, what made it make sense, and how you'd explain it to someone else.
      There are no wrong answers here. -->
 
-I now understand how to navigate Android Studio and do basic mobile development. Device emulation seems to be crucial to seeing your changes in real time. The preview annotations will also be important for previewing your layouts.
-
+I now understand ViewModels better and how they are defined to render data in the app from a service. The separation of the private mutable and public immutable makes logical sense and answers my initial question of why it appeared that everything was defined twice.
 
 ---
 
@@ -62,7 +61,7 @@ I now understand how to navigate Android Studio and do basic mobile development.
 <!-- Be honest. This is the most useful part of the reflection for me — it tells me where to
      spend more time in class. You will not lose points for being confused. -->
 
-JetPack Compose and Kotlin are new to me. I will need to get used to the syntax and study the documentation to learn how everything connects.
+The "Android Lifecycle" was referred to many times and it's not fully clear to me what this actually means. Kotlin syntax is still taking some getting used to as well.
 
 ---
 
@@ -70,6 +69,9 @@ JetPack Compose and Kotlin are new to me. I will need to get used to the syntax 
 
 <!-- Did you help a pod mate work through something? Did you discover something cool or frustrating?
      Did something from a previous week finally click? This is a good place to put it. -->
+
+For the "rotate screen" bug, I found a different solution by simply replacing "remember" with "rememberSaveable". It was not clear why this wasn't used or if this is not an acceptable solution to this problem.
+https://developer.android.com/reference/kotlin/androidx/compose/runtime/saveable/rememberSaveable.composable#rememberSaveable(kotlin.Array,androidx.compose.runtime.saveable.Saver,kotlin.String,kotlin.Function0)
 
 ---
 
