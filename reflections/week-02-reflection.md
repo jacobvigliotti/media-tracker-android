@@ -10,7 +10,7 @@
 <!-- Paste a link to your commits for this week. The easiest way: go to your repo on GitHub,
      click "commits", and copy the URL after filtering by your name or branch. -->
 
-**Link: https://github.com/jacobvigliotti/media-tracker-android/commits/week-01?author=jacobvigliotti**
+**Link: https://github.com/jacobvigliotti/media-tracker-android/commits/week-02?author=jacobvigliotti**
 
 ---
 
@@ -21,7 +21,7 @@
      Part 2 is your written assessment — what you actually looked at and what you found. -->
 
 **Reviewed:** *Dylan Browne*
-**Link to my review: https://github.com/DylanBrowneMetrostate/media-tracker-android/pull/1**
+**Link to my review: https://github.com/DylanBrowneMetrostate/media-tracker-android/pull/3**
 
 ### What I Looked At
 
