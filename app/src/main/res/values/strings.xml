@@ -9,6 +9,19 @@
     <string name="register_prompt">Don\'t have an account? Register</string>
     <string name="register_not_implemented">Create Account is not implemented yet.</string>
 
+    <!-- Register -->
+    <string name="register_create_account">Create Account</string>
+    <string name="register_tagline">Join the community</string>
+    <string name="register_displayName">Display Name</string>
+    <string name="register_username">Username</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Password</string>
+    <string name="register_confirmPassword">Confirm Password</string>
+    <string name="register_sign_up_button">Sign Up</string>
+    <string name="register_back_to_login">Already have an account? Login</string>
+
+
+
     <!-- Navigation -->
     <string name="nav_feed">Feed</string>
     <string name="nav_search">Search</string>
