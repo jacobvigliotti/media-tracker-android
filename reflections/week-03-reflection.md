@@ -10,7 +10,7 @@
 <!-- Paste a link to your commits for this week. The easiest way: go to your repo on GitHub,
      click "commits", and copy the URL after filtering by your name or branch. -->
 
-**Link: https://github.com/jacobvigliotti/media-tracker-android/commits/week-02?author=jacobvigliotti**
+**Link: https://github.com/jacobvigliotti/media-tracker-android/commits/week-03/?since=2026-06-04&until=2026-06-04**
 
 ---
 
@@ -21,13 +21,14 @@
      Part 2 is your written assessment — what you actually looked at and what you found. -->
 
 **Reviewed:** *Dylan Browne*
-**Link to my review: https://github.com/DylanBrowneMetrostate/media-tracker-android/pull/3**
+**Link to my review: https://github.com/DylanBrowneMetrostate/media-tracker-android/pull/5**
 
 ### What I Looked At
 
 <!-- Walk through the code you reviewed. What was the PR trying to do? Which files or
      functions did you focus on? -->
-The PR contained a single line update in the MainActivity.kt file. The purpose of this change was to update from the default themeing to the one specified in the wireframe.
+
+I called out a couple of things I did differently, both things I enjoyed that he did and things I would suggest doing differently.
 
 ### What I Noticed
 
@@ -35,14 +36,14 @@ The PR contained a single line update in the MainActivity.kt file. The purpose o
      done well that you want to call out? "I looked at the ViewModel and everything seemed fine"
      is not specific enough. Name the thing you noticed and explain why it matters. -->
 
-All changed files were consistent with the changes made during class session. I only noticed one peculiar change that I was not expecting which was an import statement removing the MaterialTheme from the MainActivity.kt file. It's not clear why this change was made and could potentially introduce a bug.
+I noticed that he kept the "LaunchedEffect" code from the LoginScreen and I questioned if this is correct or necessary. It wasn't obvious what this code was doing on the Login page and if its needed elsewhere.
 
 ### Comments I Left
 
 <!-- Briefly summarize the comments you left on the PR. If you left a positive comment,
      say what it was. If you left a suggestion, say what you suggested and why. -->
 
-I called out the removed import statement, questioning the purpose of this change.
+I left several comments, both positive and some critical on any pieces of code that caught my eye. Some were just stylistic comments and others were things that I thought were good, like adding TODO on incomplete functions and setting up the strings ahead of time.
 
 ---
 
@@ -52,7 +53,8 @@ I called out the removed import statement, questioning the purpose of this chang
      what was confusing before, what made it make sense, and how you'd explain it to someone else.
      There are no wrong answers here. -->
 
-I now understand ViewModels better and how they are defined to render data in the app from a service. The separation of the private mutable and public immutable makes logical sense and answers my initial question of why it appeared that everything was defined twice.
+I understand more about ViewModels and form design and the various methods available for constructing UI elements. Additionally, I understood more about how the API comes into play when submitting something that needs to talk to the server like the register button.
+
 
 ---
 
@@ -61,7 +63,7 @@ I now understand ViewModels better and how they are defined to render data in th
 <!-- Be honest. This is the most useful part of the reflection for me — it tells me where to
      spend more time in class. You will not lose points for being confused. -->
 
-The "Android Lifecycle" was referred to many times and it's not fully clear to me what this actually means. Kotlin syntax is still taking some getting used to as well.
+I'm a little confused on the project file structure and where things are supposed to live. The loose coupling seems like good design but also makes it challenging for a beginner to know where various functions and logic are supposed to reside.
 
 ---
 
@@ -70,8 +72,7 @@ The "Android Lifecycle" was referred to many times and it's not fully clear to m
 <!-- Did you help a pod mate work through something? Did you discover something cool or frustrating?
      Did something from a previous week finally click? This is a good place to put it. -->
 
-For the "rotate screen" bug, I found a different solution by simply replacing "remember" with "rememberSaveable". It was not clear why this wasn't used or if this is not an acceptable solution to this problem.
-https://developer.android.com/reference/kotlin/androidx/compose/runtime/saveable/rememberSaveable.composable#rememberSaveable(kotlin.Array,androidx.compose.runtime.saveable.Saver,kotlin.String,kotlin.Function0)
+Our team started diving into how to make the API call work. We worked together on debugging various errors which was a good exercise in team work. We hit a wall at the end trying to get the serializer to properly convert to JSON, hopefully we will resolve this next week!
 
 ---
 
