@@ -9,14 +9,25 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import edu.metrostate.ics342.mediatracker.data.UserRepository
+import edu.metrostate.ics342.mediatracker.ui.auth.AuthViewModel.AuthUiState
+import kotlin.text.isBlank
 
 class RegisterViewModel(
     ) : ViewModel() {
 
-    private val userRepository: UserRepository = UserRepository()
+    //private val userRepository: UserRepository = UserRepository()
+
+    sealed class RegisterUiState {
+        object Idle    : RegisterUiState()
+        object Loading : RegisterUiState()
+        object Success : RegisterUiState()
+        data class Error(val msgResId: Int) : RegisterUiState()
+    }
 
     // ── Login ─────────────────────────────────────────────────────────────
 
+    private val _registerState = MutableStateFlow<RegisterUiState>(RegisterUiState.Idle)
+    val registerState: StateFlow<RegisterUiState> = _registerState.asStateFlow()
     private val _displayName    = MutableStateFlow("")
     val displayName: StateFlow<String> = _displayName.asStateFlow()
 
@@ -39,11 +50,28 @@ class RegisterViewModel(
     fun onConfirmPasswordChange(value: String) { _confirmPassword.value = value }
 
 
-
     fun onSignUpClicked() {
-        viewModelScope.launch {
-                userRepository.createAccount(displayName.value, username.value, email.value, password.value)
+        when {
+            _displayName.value.isBlank() || _email.value.isBlank() || _username.value.isBlank() ||
+                    _password.value.isBlank() || _confirmPassword.value.isBlank() -> {
+                _registerState.value =
+                    RegisterUiState.Error(edu.metrostate.ics342.mediatracker.R.string.error_mandatory_fields)
             }
+
+            _password.value != _confirmPassword.value -> {
+                _registerState.value =
+                    RegisterUiState.Error(edu.metrostate.ics342.mediatracker.R.string.error_password_mismatch)
+            }
+
+            else -> _registerState.value =
+                RegisterUiState.Error(edu.metrostate.ics342.mediatracker.R.string.register_not_implemented)
+
         }
     }
+
+
+
+    }
+
+
 
