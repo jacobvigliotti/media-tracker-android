@@ -185,7 +185,7 @@ fun RegisterScreen(
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
-                onDone = { focusManager.clearFocus(); viewModel.onSignUpClicked() }
+                onDone = { focusManager.clearFocus(); viewModel.onRegisterClick() }
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -199,7 +199,7 @@ fun RegisterScreen(
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { focusManager.clearFocus(); viewModel.onSignUpClicked() },
+            onClick = { focusManager.clearFocus(); viewModel.onRegisterClick() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
