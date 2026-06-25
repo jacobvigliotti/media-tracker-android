@@ -6,7 +6,7 @@ import edu.metrostate.ics342.mediatracker.BuildConfig
 object ApiConstants {
     const val BASE_URL = "https://wjtzkgpxmxtzcczzbvrz.supabase.co/functions/v1/"
 
-    val CLIENT_ID: String = "ics342-jake-vigliotti"
+    val CLIENT_ID: String = "ics342-jacob-vigliotti"
     val CLIENT_SECRET: String = "mt-ZXSdxKNbguCVJdStuQ"
 
     /* TODO: include CLIENT_ID and CLIENT_SECRET in BuildConfig
