@@ -79,6 +79,11 @@
     <!-- Search -->
     <string name="search_not_implemented">Search is not implemented yet.</string>
     <string name="search_title">Search</string>
+    <string name="search_label">Search</string>
+    <string name="search_hint">Search books, movies, shows…</string>
+    <string name="search_popular_this_week">Popular This Week</string>
+    <string name="search_results_count">%1$d results</string>
+
 
     <!-- Detail -->
     <string name="detail_not_implemented">Media Detail is not implemented yet.\n(mediaId = %1$d)</string>
