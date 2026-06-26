@@ -6,8 +6,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class SearchViewModel : ViewModel() {
-    // TODO (Week 5): Add query StateFlow, results StateFlow, loading/error states.
-    // Wire to GET /media with debounced LaunchedEffect.
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
 

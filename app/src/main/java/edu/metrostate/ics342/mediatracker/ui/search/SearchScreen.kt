@@ -29,6 +29,7 @@ import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository
 
 @Composable
 fun SearchScreen(
+    onSearch: (String) -> Unit,
     onMediaClick: (Int) -> Unit,
     viewModel: SearchViewModel = viewModel()
 ) {
@@ -56,7 +57,7 @@ fun SearchScreen(
                 if (query.isNotBlank()) {
                     val q = query
                     viewModel.clearQuery()
-                    //onSearch(q)
+                    onSearch(q)
                 }
             })
         )
