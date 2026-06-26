@@ -78,7 +78,8 @@ fun MediaTrackerNavGraph(navController: NavHostController) {
                 )
             }
 
-            /*composable(Routes.SEARCH) {
+
+            composable(Routes.SEARCH) {
                 SearchScreen(
                     onMediaClick = { mediaId -> navController.navigate("media_detail/$mediaId") }
                 )
@@ -136,7 +137,7 @@ fun MediaTrackerNavGraph(navController: NavHostController) {
                 ConnectionsScreen(
                     onUserClick = { userId -> navController.navigate("user_profile/$userId") }
                 )
-            }*/
+            }
 
             composable(Routes.SETTINGS) {
                 SettingsScreen(
