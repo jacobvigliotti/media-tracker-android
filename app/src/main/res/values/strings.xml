@@ -111,6 +111,7 @@
     <string name="error_email_or_username_taken">That email or username is already taken.</string>
     <string name="error_network">Network error. Check your connection and try again.</string>
     <string name="error_generic">Something went wrong. Please try again.</string>
+    <string name="error_invalid_credentials">Invalid email or password.</string>
 
 
     <!-- Media -->
