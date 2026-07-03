@@ -1,6 +1,7 @@
 package edu.metrostate.ics342.mediatracker.ui.search
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import edu.metrostate.ics342.mediatracker.data.datastore.DefaultSessionRepository
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 class SearchResultsViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mediaRepository = DefaultMediaRepository(DefaultSessionRepository(application))
+
 
     private val _results = MutableStateFlow<List<Media>>(emptyList())
     val results: StateFlow<List<Media>> = _results.asStateFlow()
@@ -58,8 +60,7 @@ class SearchResultsViewModel(application: Application) : AndroidViewModel(applic
                 nextCursor     = page.nextCursor
                 hasMore        = page.hasMore
             } catch (e: Exception) {
-                // network errors silently ignored
-            } finally {
+                Log.e("SearchResultsVM", "Search failed", e)            } finally {
                 _isLoading.value = false
             }
         }
