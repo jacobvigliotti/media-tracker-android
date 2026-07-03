@@ -37,6 +37,8 @@ fun LoginScreen(
     val loginState  by viewModel.loginState.collectAsState()
     val focusManager = LocalFocusManager.current
 
+
+
     // Navigate on success
     LaunchedEffect(loginState) {
         if (loginState is AuthViewModel.AuthUiState.Success) {
@@ -47,6 +49,15 @@ fun LoginScreen(
 
     val isLoading = loginState is AuthViewModel.AuthUiState.Loading
     val errorMsg  = (loginState as? AuthViewModel.AuthUiState.Error)?.msgResId?.let { stringResource(it) }
+
+    val fastLoad = true
+    if (fastLoad) {
+        LaunchedEffect(Unit) {
+            viewModel.onEmailChange("jake.vigliotti@example.com")
+            viewModel.onPasswordChange("test123")
+            viewModel.onLoginClick()
+        }
+    }
 
     Column(
         modifier = Modifier

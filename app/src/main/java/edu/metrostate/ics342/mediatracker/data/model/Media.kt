@@ -9,6 +9,7 @@ data class Media(
     val id: Int,
     val mediaType: String, // "book", "movie", or "show"
     val title: String,
+    val description: String? = null,
     val author: String? = null,       // books
     val director: String? = null,     // movies
     val creator: String? = null,      // shows
