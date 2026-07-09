@@ -7,18 +7,24 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Media(
     val id: Int,
-    val mediaType: String, // "book", "movie", or "show"
+    val mediaType: String,
     val title: String,
-    val description: String? = null,
-    val author: String? = null,       // books
-    val director: String? = null,     // movies
-    val creator: String? = null,      // shows
-    val network: String? = null,      // shows (streaming / broadcast platform)
+    val publishedYear: Int,
+    val averageRating: Float,
+    val ratingCount: Int,
+    val genres: List<String>,
     val coverUrl: String? = null,
-    val publishedYear: Int? = null,
-    val averageRating: Float = 0f,
-    val ratingCount: Int = 0,
-    val genres: List<String> = emptyList()
+    val description: String? = null,
+    val reviewCount: Int? = null,
+    val author: String? = null,          // Books only
+    val director: String? = null,        // Movies only
+    val creator: String? = null,         // Shows only
+    val network: String? = null,         // Shows only
+    val pageCount: Int? = null,          // Books only
+    val runtimeMinutes: Int? = null,     // Movies only
+    val seasonCount: Int? = null,        // Shows only
+    val episodeCount: Int? = null,       // Shows only
+    val isbn: String? = null,           // Books only
 )
 
 /** Returns a human-readable credit line appropriate for the media type. */
