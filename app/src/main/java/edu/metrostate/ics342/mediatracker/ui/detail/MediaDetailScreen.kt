@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Star
@@ -28,11 +29,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository.activityFeed
+import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository.mediaList
+import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository.reviewList
 import edu.metrostate.ics342.mediatracker.data.model.Media
+import edu.metrostate.ics342.mediatracker.data.model.Review
 import edu.metrostate.ics342.mediatracker.theme.Primary
 import edu.metrostate.ics342.mediatracker.theme.PrimaryContainer
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import edu.metrostate.ics342.mediatracker.R as R
 
 // ── STUB — Students build this in Week 7 ─────────────────────────────────────
@@ -52,11 +61,11 @@ fun MediaDetailScreen(
     onWriteReview: (Int) -> Unit
 ) {
 
-    val media = Media(id = 1,  mediaType = "book",
-        title = "Dune", description = "Test description", author = "Frank Hebert",
-        publishedYear = 1979, averageRating = 4.7f,
-        ratingCount = 312, genres = listOf("Science Fiction", "Comedy"))
-    val coverUrl = null
+    val media = mediaList.random()
+    val reviews = reviewList
+
+
+
 
     TopAppBar(
         modifier = Modifier.fillMaxWidth(), // Forces full horizontal width
@@ -125,8 +134,15 @@ fun MediaDetailScreen(
 
         Spacer(Modifier.height(8.dp))
 
+        val creatorName = when (media.mediaType) {
+            "book"  -> media.author
+            "movie" -> media.director
+            "show"  -> media.creator
+            else    -> null
+        } ?: "?"
+
         Text(
-            media.author.toString(),
+            creatorName,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
@@ -193,18 +209,34 @@ fun MediaDetailScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly // Spaces the boxes evenly
             ) {
                 // Box 1
-                InfoBox(data = "1937", title = "Year", modifier = Modifier.weight(1f))
+                InfoBox(data = media.publishedYear.toString(), title = "Year", modifier = Modifier.weight(1f))
 
                 Spacer(Modifier.width(8.dp)) // Small gap between boxes
 
                 // Box 2
-                InfoBox(data = "310", title = "Pages", modifier = Modifier.weight(1f))
-
+                InfoBox(
+                    data = when (media.mediaType) {
+                        "book" -> media.pageCount?.toString() ?: "—"
+                        "show" -> media.episodeCount?.toString() ?: "—"
+                        "movie" -> media.runtimeMinutes?.toString() ?: "—"
+                        else -> {"-"}
+                    },
+                    title = when (media.mediaType) {
+                        "book" -> "Pages"
+                        "show" -> "Episodes"
+                        "movie" -> "Runtime"
+                        else -> {"-"}
+                    },
+                    modifier = Modifier.weight(1f)
+                )
                 Spacer(Modifier.width(8.dp)) // Small gap between boxes
 
                 // Box 3
-                InfoBox(data = "Fantasy", title = "Genre", modifier = Modifier.weight(1f))
-            }
+                InfoBox(
+                    data = media.genres.firstOrNull() ?: "—",
+                    title = "Genre",
+                    modifier = Modifier.weight(1f)
+                )            }
             // End About Row/Boxes
 
             // Start Review Section
@@ -231,6 +263,15 @@ fun MediaDetailScreen(
                     modifier = Modifier.clickable { /*TODO*/ }
                 )
             }
+            Column(modifier = Modifier.fillMaxWidth()) {
+                reviews.forEach { review ->
+                    ReviewCard(
+                        review = review,
+                        modifier = Modifier.padding(vertical = 6.dp)
+                    )
+                }
+            }
+
         }
         }
         }
@@ -265,6 +306,121 @@ fun InfoBox(data: String, title: String, modifier: Modifier = Modifier) {
         }
     }
 }
+
+@Composable
+fun ReviewCard(
+    review: Review,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    Card(
+        modifier  = modifier.fillMaxWidth().clickable { onClick() },
+        shape     = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+
+        Row(
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+
+            // ───────────────────────────────
+            // Column 1: Profile Image / Initial
+            // ───────────────────────────────
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                contentAlignment = Alignment.Center
+            ) {
+                val initial = review.userId.firstOrNull()?.uppercase() ?: "?"
+                Text(
+                    text = initial,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            // ───────────────────────────────
+            // Column 2: Username + Stars + Review Text
+            // ───────────────────────────────
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                // Username / handle
+                Text(
+                    text = "@${review.userId}",
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Star rating
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    repeat(review.rating) {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = null,
+                            tint = Color(0xFFFFD700),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                    repeat(5 - review.rating) {
+                        Icon(
+                            imageVector = Icons.Default.StarBorder,
+                            contentDescription = null,
+                            tint = Color.Gray,
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                // Review text
+                review.reviewText?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+
+            // ───────────────────────────────
+            // Column 3: "xd ago"
+            // ───────────────────────────────
+            Text(
+                text = timeAgo(review.createdAt),
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Gray,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
+    }
+}
+
+fun timeAgo(timestamp: String): String {
+    val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+    val created = OffsetDateTime.parse(timestamp, formatter)
+    val now = OffsetDateTime.now()
+
+    val days = ChronoUnit.DAYS.between(created, now)
+    val hours = ChronoUnit.HOURS.between(created, now)
+    val minutes = ChronoUnit.MINUTES.between(created, now)
+
+    return when {
+        days > 0 -> "${days}d ago"
+        hours > 0 -> "${hours}h ago"
+        minutes > 0 -> "${minutes}m ago"
+        else -> "just now"
+    }
+}
+
+
 
 
 

@@ -24,7 +24,7 @@ object FakeMediaRepository {
     )
 
     val mediaList = listOf(
-        Media(id = 1,  mediaType = "book",  title = "The Hitchhiker's Guide to the Galaxy",
+        Media(id = 1,  mediaType = "book",  title = "The Hitchhiker's Guide to the Galaxy", pageCount = 379,
             author = "Douglas Adams", publishedYear = 1979,
             averageRating = 4.7f, ratingCount = 312,
             genres = listOf("Science Fiction", "Comedy")),
@@ -74,6 +74,87 @@ object FakeMediaRepository {
         LibraryItem("user-001", 8, LibraryStatus.WANT_TO,
             "2024-01-20T10:00:00Z", "2024-01-20T10:00:00Z", mediaList[7]),
     )
+
+    val reviewList = listOf(
+        Review(
+            userId = "user_001",
+            mediaId = 1,
+            rating = 5,
+            reviewText = "An absolute classic. Funny, clever, and endlessly quotable.",
+            createdAt = "2024-01-12T14:23:00Z"
+        ),
+        Review(
+            userId = "user_002",
+            mediaId = 1,
+            rating = 4,
+            reviewText = "Loved the humor, but some parts dragged a bit.",
+            createdAt = "2024-02-03T09:11:00Z"
+        ),
+        Review(
+            userId = "user_003",
+            mediaId = 2,
+            rating = 5,
+            reviewText = "Project Hail Mary blew me away. Couldn’t put it down.",
+            createdAt = "2024-03-18T18:45:00Z"
+        ),
+        Review(
+            userId = "user_004",
+            mediaId = 3,
+            rating = 5,
+            reviewText = "One of the best fantasy books ever written.",
+            createdAt = "2024-04-01T12:00:00Z"
+        ),
+        Review(
+            userId = "user_005",
+            mediaId = 4,
+            rating = 4,
+            reviewText = "Epic worldbuilding. Slow start, incredible payoff.",
+            createdAt = "2024-04-22T16:30:00Z"
+        ),
+        Review(
+            userId = "user_006",
+            mediaId = 5,
+            rating = 5,
+            reviewText = "Arrival is a masterpiece. Emotional and thought‑provoking.",
+            createdAt = "2024-05-10T20:15:00Z"
+        ),
+        Review(
+            userId = "user_007",
+            mediaId = 6,
+            rating = 5,
+            reviewText = "Wild, chaotic, and brilliant. EEAAO deserves every award.",
+            createdAt = "2024-06-02T11:05:00Z"
+        ),
+        Review(
+            userId = "user_008",
+            mediaId = 7,
+            rating = 5,
+            reviewText = "Interstellar is visually stunning and emotionally powerful.",
+            createdAt = "2024-06-15T22:40:00Z"
+        ),
+        Review(
+            userId = "user_009",
+            mediaId = 8,
+            rating = 5,
+            reviewText = "Severance is one of the best shows in years. Perfect tone.",
+            createdAt = "2024-07-01T08:55:00Z"
+        ),
+        Review(
+            userId = "user_010",
+            mediaId = 9,
+            rating = 4,
+            reviewText = "The Bear is intense and beautifully acted.",
+            createdAt = "2024-07-12T13:20:00Z"
+        ),
+        Review(
+            userId = "user_011",
+            mediaId = 10,
+            rating = 5,
+            reviewText = "Andor is peak Star Wars. Mature, grounded, and gripping.",
+            createdAt = "2024-07-20T17:10:00Z"
+        )
+    )
+
 
     private val userJordan = UserProfile("user-002", "j@example.com", "jsmith",   "Jordan Smith",  followerCount = 5,  followingCount = 10)
     private val userPriya  = UserProfile("user-003", "p@example.com", "priya_r", "Priya Patel",   followerCount = 23, followingCount = 15)
