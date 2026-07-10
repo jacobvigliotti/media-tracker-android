@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -31,7 +33,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.google.android.material.loadingindicator.LoadingIndicator
 import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository.activityFeed
 import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository.mediaList
 import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository.reviewList
@@ -58,10 +63,19 @@ import edu.metrostate.ics342.mediatracker.R as R
 fun MediaDetailScreen(
     mediaId: Int,
     onNavigateBack: () -> Unit,
-    onWriteReview: (Int) -> Unit
+    onWriteReview: (Int) -> Unit,
+    viewModel: MediaDetailViewModel = viewModel()
 ) {
 
-    val media = mediaList.random()
+    LaunchedEffect(mediaId) {
+        viewModel.setMediaId(mediaId)
+    }
+    val media = viewModel.media.collectAsState().value
+
+    if (media == null) {
+        Text("No Media")
+        return
+    }
     val reviews = reviewList
 
 
