@@ -126,5 +126,6 @@
     <string name="media_detail_genre">Genre</string>
     <string name="media_detail_reviews">Reviews</string>
     <string name="media_detail_write_review">Write Review</string>
+    <string name="media_detail_added">In Library</string>
 
 </resources>
