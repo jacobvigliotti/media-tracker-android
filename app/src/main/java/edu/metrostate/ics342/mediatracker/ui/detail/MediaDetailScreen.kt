@@ -24,6 +24,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -42,8 +43,10 @@ import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository.mediaList
 import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository.reviewList
 import edu.metrostate.ics342.mediatracker.data.model.Media
 import edu.metrostate.ics342.mediatracker.data.model.Review
+import edu.metrostate.ics342.mediatracker.theme.OnPrimary
 import edu.metrostate.ics342.mediatracker.theme.Primary
 import edu.metrostate.ics342.mediatracker.theme.PrimaryContainer
+import edu.metrostate.ics342.mediatracker.theme.SecondaryContainer
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -71,6 +74,8 @@ fun MediaDetailScreen(
         viewModel.setMediaId(mediaId)
     }
     val media = viewModel.media.collectAsState().value
+    val isInLibrary by viewModel.isInLibrary.collectAsState()
+
 
     if (media == null) {
         Text("No Media")
@@ -179,11 +184,15 @@ fun MediaDetailScreen(
         // Want To and Save Button Row
         Row() {
             Button(
-                onClick = { /* do something */ },
-                enabled = true,
-                modifier = Modifier.weight(1f).height(48.dp)
+                onClick = { viewModel.addToLibrary(mediaId) },
+                modifier = Modifier.weight(1f).height(48.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isInLibrary) SecondaryContainer else Primary,
+                    contentColor = if (isInLibrary) Color.Black else Color.White
+                )
+
             ) {
-                Text(stringResource(R.string.media_detail_want_to))
+                Text(if (isInLibrary) "In Library" else "Want to")
             }
             Spacer(Modifier.width(8.dp))
             Button(

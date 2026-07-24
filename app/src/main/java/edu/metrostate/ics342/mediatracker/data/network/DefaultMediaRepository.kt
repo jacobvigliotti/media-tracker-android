@@ -1,7 +1,10 @@
 package edu.metrostate.ics342.mediatracker.data.network
 
+import androidx.compose.ui.node.RootForTest
+import edu.metrostate.ics342.mediatracker.data.Exceptions
 import edu.metrostate.ics342.mediatracker.data.LoginResult
 import edu.metrostate.ics342.mediatracker.data.MediaResult
+import edu.metrostate.ics342.mediatracker.data.SearchResult
 import edu.metrostate.ics342.mediatracker.data.SessionRepository
 import edu.metrostate.ics342.mediatracker.data.model.Media
 import java.io.IOException
@@ -58,6 +61,57 @@ class DefaultMediaRepository(sessionRepository: SessionRepository) {
                 )
             }
             else -> return MediaResult.Error
+        }
+    }
+
+    suspend fun addToLibrary(id: Int): LibraryResponse {
+
+        val response = api.addToLibrary(
+            LibraryRequest(
+                mediaId = id,
+                status = "want_to"
+            )
+        )
+        return when (response.code()) {
+            201 -> {
+                // Created — success
+                response.body() ?: throw IllegalStateException("Empty 201 body")
+            }
+            409 -> {
+                throw Exceptions.AlreadyInLibraryException()
+            }
+            else -> {
+                throw IllegalStateException("Unexpected status: ${response.code()}")
+            }
+        }
+    }
+
+    suspend fun isInLibrary(id: Int): Boolean {
+        val response = api.getLibraryMedia(id)
+        return when (response.code()) {
+            200 -> true
+            409 -> false
+            else -> {
+                throw IllegalStateException("Unexpected status: ${response.code()}")
+            }
+        }
+    }
+
+    suspend fun addToFavorites(id: Int): FavoriteResponse? {
+        val response = api.addToFavorites(FavoriteRequest(id))
+        return when (response.code()){
+            201 -> response.body()
+            409 -> throw Exceptions.AlreadyInFavoritesException()
+            else -> throw IllegalStateException("Unexpected status: ${response.code()}")
+        }
+    }
+
+    suspend fun getFavorite(id: Int): FavoriteResponse? {
+        val response = api.getFavoriteMedia(id)
+        return when (response.code()){
+            200 -> response.body()
+            404 -> throw Exceptions.ItemNotExist()
+            else -> throw IllegalStateException("Unexpected status: ${response.code()}")
         }
     }
 }
