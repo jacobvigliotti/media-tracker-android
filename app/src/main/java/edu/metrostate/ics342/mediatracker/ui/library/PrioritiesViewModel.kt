@@ -33,7 +33,7 @@ class PrioritiesViewModel(application: Application) : AndroidViewModel(applicati
     fun loadPriorities() {
         viewModelScope.launch {
             _isLoading.value = true
-            _priorityItems.value = (mediaRepository.getPriorities() ?: _priorityItems.value
+            _priorityItems.value = (mediaRepository.getPriorities())
             _isLoading.value = false
         }
     }

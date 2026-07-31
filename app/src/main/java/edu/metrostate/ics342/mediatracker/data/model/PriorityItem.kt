@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PriorityItem(
-    val id: Int,
+    val mediaId: Int,
     val priority: Int,
     val orderIndex: Int,
     val estimatedTimeHours: Int?,

@@ -2,6 +2,7 @@ package edu.metrostate.ics342.mediatracker.data.network
 
 import edu.metrostate.ics342.mediatracker.data.model.LibraryItem
 import edu.metrostate.ics342.mediatracker.data.model.Media
+import edu.metrostate.ics342.mediatracker.data.model.PriorityItem
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -51,7 +52,7 @@ interface MediaApiService {
         @Body body: FavoriteRequest): Response<FavoriteResponse>
 
     @GET("priorities")
-    suspend fun getPriorities(): Response<PriorityResponse>
+    suspend fun getPriorities(): Response<List<PriorityItem>>
 
     @PUT("priorities")
     suspend fun updatePriorityOrder(
