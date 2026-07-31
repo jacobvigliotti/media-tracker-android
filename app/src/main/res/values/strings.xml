@@ -42,6 +42,7 @@
     <string name="library_items_count">%1$d items</string>
     <string name="library_item_count">%1$d item</string>
     <string name="action_more_options">More options</string>
+    <string name="action_add_to_priorities">Add to priorities</string>
     <string name="action_change_status">Change status</string>
     <string name="action_remove_from_library">Remove from library</string>
 
@@ -127,5 +128,12 @@
     <string name="media_detail_reviews">Reviews</string>
     <string name="media_detail_write_review">Write Review</string>
     <string name="media_detail_added">In Library</string>
+
+    <!-- Priorities -->
+    <string name="priorities">Priorities</string>
+    <string name="priority_chip_all">All</string>
+    <string name="priority_chip_high">High</string>
+    <string name="priority_chip_medium">Medium</string>
+    <string name="priority_chip_low">Low</string>
 
 </resources>

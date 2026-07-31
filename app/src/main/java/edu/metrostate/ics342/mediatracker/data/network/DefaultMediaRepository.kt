@@ -1,13 +1,14 @@
 package edu.metrostate.ics342.mediatracker.data.network
 
-import androidx.compose.ui.node.RootForTest
+import android.media.browse.MediaBrowser
 import edu.metrostate.ics342.mediatracker.data.Exceptions
-import edu.metrostate.ics342.mediatracker.data.LoginResult
+import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository
 import edu.metrostate.ics342.mediatracker.data.MediaResult
-import edu.metrostate.ics342.mediatracker.data.SearchResult
 import edu.metrostate.ics342.mediatracker.data.SessionRepository
+import edu.metrostate.ics342.mediatracker.data.model.LibraryItem
 import edu.metrostate.ics342.mediatracker.data.model.Media
-import java.io.IOException
+import edu.metrostate.ics342.mediatracker.data.model.PriorityItem
+import kotlin.collections.emptyList
 
 data class MediaPage(
     val items: List<Media>,
@@ -64,10 +65,18 @@ class DefaultMediaRepository(sessionRepository: SessionRepository) {
         }
     }
 
-    suspend fun addToLibrary(id: Int): LibraryResponse {
+    suspend fun getLibrary(status: String): List<LibraryItem> {
+        val response = api.getLibrary(status)
+        return if (response.isSuccessful) {
+            response.body() ?: FakeMediaRepository.libraryItems
+        } else {
+            FakeMediaRepository.libraryItems
+        }
+    }
+    suspend fun addToLibrary(id: Int): LibraryMediaResponse {
 
         val response = api.addToLibrary(
-            LibraryRequest(
+            LibraryMediaRequest(
                 mediaId = id,
                 status = "want_to"
             )
@@ -112,6 +121,24 @@ class DefaultMediaRepository(sessionRepository: SessionRepository) {
             200 -> response.body()
             404 -> throw Exceptions.ItemNotExist()
             else -> throw IllegalStateException("Unexpected status: ${response.code()}")
+        }
+    }
+
+    suspend fun getPriorities(): List<PriorityItem> {
+        val response = api.getPriorities()
+        return if (response.isSuccessful) {
+            val dto = response.body() ?: emptyList()
+            PriorityResponse(dto).priorities
+        } else {
+            emptyList() // or FakePriorityRepository.priorities
+        }
+    }
+
+    suspend fun updatePriorityOrder(body: UpdatePriorityOrderRequest): UpdatePriorityOrderResponse? {
+        val response = api.updatePriorityOrder(body)
+        return when (response.code()){
+            200 -> response.body()
+            else -> throw IllegalStateException(response.message())
         }
     }
 }

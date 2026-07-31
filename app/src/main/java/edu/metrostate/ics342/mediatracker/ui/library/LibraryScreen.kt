@@ -1,5 +1,6 @@
 package edu.metrostate.ics342.mediatracker.ui.library
 
+import android.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -25,23 +27,51 @@ import coil.compose.AsyncImage
 import edu.metrostate.ics342.mediatracker.data.model.LibraryItem
 import edu.metrostate.ics342.mediatracker.data.model.LibraryStatus
 import edu.metrostate.ics342.mediatracker.data.model.creatorCredit
+import edu.metrostate.ics342.mediatracker.R.string
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryScreen(
     onMediaClick: (Int) -> Unit,
+    onPrioritiesClick: () -> Unit,
     viewModel: LibraryViewModel = viewModel()
 ) {
     val items     by viewModel.libraryItems.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
-
     val selectedStatus by viewModel.filterState.collectAsState()
+
+    var expanded by remember { mutableStateOf(false) }
+
+
 
     //var selectedStatus by rememberSaveable() { mutableStateOf(LibraryStatus.WANT_TO) }
     var selectedType   by rememberSaveable() { mutableStateOf("all") }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(title = { Text(stringResource(edu.metrostate.ics342.mediatracker.R.string.library_title)) })
+        TopAppBar(
+            title = { Text(stringResource(string.library_title)) },
+            actions = {
+                IconButton(onClick = { expanded = !expanded }) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menu"
+                    )
+                }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(string.priorities)) },
+                        onClick = { onPrioritiesClick() }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Option 2") },
+                        onClick = { /* Do something... */ }
+                    )
+                }
+            }
+        )
 
         Row(
             modifier = Modifier
@@ -126,7 +156,9 @@ fun LibraryScreen(
                     item           = item,
                     onClick        = { onMediaClick(item.mediaId) },
                     onRemove       = { viewModel.removeItem(item.mediaId) },
-                    onStatusChange = { newStatus -> viewModel.updateStatus(item.mediaId, newStatus) }
+                    onPrioritize = { viewModel.prioritizeItem(item.mediaId)},
+                    onStatusChange = { newStatus -> viewModel.updateStatus(item.mediaId, newStatus)
+                    }
                 )
             }
         }
@@ -138,6 +170,7 @@ private fun LibraryItemCard(
     item: LibraryItem,
     onClick: () -> Unit,
     onRemove: () -> Unit,
+    onPrioritize: () -> Unit,
     onStatusChange: (LibraryStatus) -> Unit
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
@@ -221,6 +254,10 @@ private fun LibraryItemCard(
                     expanded         = menuExpanded,
                     onDismissRequest = { menuExpanded = false }
                 ) {
+                    DropdownMenuItem(
+                        text    = { Text(stringResource(edu.metrostate.ics342.mediatracker.R.string.action_add_to_priorities)) },
+                        onClick = { menuExpanded = false; onPrioritize() }
+                    )
                     DropdownMenuItem(
                         text    = { Text(stringResource(edu.metrostate.ics342.mediatracker.R.string.action_change_status)) },
                         onClick = { menuExpanded = false; statusDialogVisible = true }
