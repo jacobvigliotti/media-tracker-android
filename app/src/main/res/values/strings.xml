@@ -135,5 +135,6 @@
     <string name="priority_chip_high">High</string>
     <string name="priority_chip_medium">Medium</string>
     <string name="priority_chip_low">Low</string>
+    <string name="action_remove_from_priorities">Remove priority</string>
 
 </resources>
