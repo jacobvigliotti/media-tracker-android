@@ -44,6 +44,13 @@ fun PrioritiesScreen(
     viewModel: PrioritiesViewModel = viewModel()
 ) {
     var priorities = viewModel.priorityItems.collectAsState().value
+    val lazyListState = rememberLazyListState()
+    val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
+        val reordered = priorities.toMutableList().apply {
+            add(to.index, removeAt(from.index))
+        }
+        viewModel.updatePriorityOrder(reordered)
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         CenterAlignedTopAppBar(
@@ -51,7 +58,7 @@ fun PrioritiesScreen(
                 Text(stringResource(string.priorities))
             },
             navigationIcon = {
-                IconButton(onClick = { onNavigateBack }) {
+                IconButton(onClick = { onNavigateBack() }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back"
@@ -75,13 +82,7 @@ fun PrioritiesScreen(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        val lazyListState = rememberLazyListState()
-        val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
-            val reordered = priorities.toMutableList().apply {
-                add(to.index, removeAt(from.index))
-            }
-            viewModel.updatePriorityOrder(reordered)
-        }
+
 
         LazyColumn(state = lazyListState) {
             items(priorities, key = { it.mediaId }) {

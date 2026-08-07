@@ -3,7 +3,6 @@ package edu.metrostate.ics342.mediatracker.ui.library
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.metrostate.ics342.mediatracker.data.datastore.DefaultSessionRepository
 import edu.metrostate.ics342.mediatracker.data.model.PriorityItem
 import edu.metrostate.ics342.mediatracker.data.network.DefaultMediaRepository
@@ -42,14 +41,24 @@ class PrioritiesViewModel(application: Application) : AndroidViewModel(applicati
 
     fun onTypeSelect(type: String) { _selectedType.value = type }
 
-    suspend fun updatePriorityOrder(items: List<PriorityItem>) {
-        val updated = items.mapIndexed { index, item ->
-            item.copy(orderIndex = index)
+    fun updatePriorityOrder(items: List<PriorityItem>) {
+        viewModelScope.launch {
+            val requests = items.mapIndexed { index, item ->
+                UpdatePriorityOrderRequest(
+                    mediaId = item.mediaId,
+                    orderIndex = index
+                )
+            }
+
+            requests.forEach { request ->
+                mediaRepository.updatePriorityOrder(request)
+            }
+
+            // Update local state after successful API calls
+            _priorityItems.value = items.mapIndexed { index, item ->
+                item.copy(orderIndex = index)
+            }
         }
-
-        //mediaRepository.updatePriorityOrder()
-
-        _priorityItems.value = updated
     }
 
 

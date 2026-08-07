@@ -70,10 +70,6 @@ fun LibraryScreen(
                         text = { Text(stringResource(string.priorities)) },
                         onClick = { onPrioritiesClick() }
                     )
-                    DropdownMenuItem(
-                        text = { Text("Option 2") },
-                        onClick = { /* Do something... */ }
-                    )
                 }
             }
         )

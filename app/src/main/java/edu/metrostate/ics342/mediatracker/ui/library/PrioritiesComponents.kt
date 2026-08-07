@@ -50,9 +50,9 @@ import edu.metrostate.ics342.mediatracker.data.model.Media
 
 @Composable
     fun PriorityFilterChips(
-        selectedType: String,
-        onTypeSelect: (String) -> Unit,
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier,
+        selectedType: String = "",
+        onTypeSelect: (String) -> Unit = {}
     ) {
         val types = listOf(
             "" to R.string.priority_chip_all,

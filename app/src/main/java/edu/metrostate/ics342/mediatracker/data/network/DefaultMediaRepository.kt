@@ -1,6 +1,5 @@
 package edu.metrostate.ics342.mediatracker.data.network
 
-import android.media.browse.MediaBrowser
 import edu.metrostate.ics342.mediatracker.data.Exceptions
 import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository
 import edu.metrostate.ics342.mediatracker.data.MediaResult
@@ -141,4 +140,5 @@ class DefaultMediaRepository(sessionRepository: SessionRepository) {
             else -> throw IllegalStateException(response.message())
         }
     }
+
 }
