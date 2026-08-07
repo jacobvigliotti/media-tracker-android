@@ -1,6 +1,8 @@
 package edu.metrostate.ics342.mediatracker.ui.library
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,7 +23,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.metrostate.ics342.mediatracker.R.string
 import androidx.compose.runtime.collectAsState
 import androidx.compose.foundation.lazy.items
-
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Card
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.sp
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
+import java.util.Collections.list
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +43,7 @@ fun PrioritiesScreen(
     onNavigateBack: () -> Unit,
     viewModel: PrioritiesViewModel = viewModel()
 ) {
-    val priorities = viewModel.priorityItems.collectAsState().value
+    var priorities = viewModel.priorityItems.collectAsState().value
 
     Column(modifier = Modifier.fillMaxSize()) {
         CenterAlignedTopAppBar(
@@ -63,17 +75,25 @@ fun PrioritiesScreen(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(priorities, key = { it.mediaId }) { priority ->
-                PriorityItemCard(
-                    item = priority.media,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
-                    dragHandle = Modifier   // unused for now
-                )
+        val lazyListState = rememberLazyListState()
+        val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
+            val reordered = priorities.toMutableList().apply {
+                add(to.index, removeAt(from.index))
+            }
+            viewModel.updatePriorityOrder(reordered)
+        }
+
+        LazyColumn(state = lazyListState) {
+            items(priorities, key = { it.mediaId }) {
+                ReorderableItem(reorderableLazyListState, key =it.mediaId) { isDragging ->
+                    PriorityItemCard(
+                        item = it.media,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                            .draggableHandle(),
+                    )
+                }
             }
         }
 
