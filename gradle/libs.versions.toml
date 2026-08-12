@@ -48,6 +48,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 retrofit-converters-kotlinx-serializtion = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization"}
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+reorderable = { module = "org.burnoutcrew.reorderable:reorderable", version = "1.0.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

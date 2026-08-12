@@ -2,14 +2,12 @@ package edu.metrostate.ics342.mediatracker.ui.detail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import edu.metrostate.ics342.mediatracker.data.Exceptions
 import edu.metrostate.ics342.mediatracker.data.MediaResult
 import edu.metrostate.ics342.mediatracker.data.datastore.DefaultSessionRepository
 import edu.metrostate.ics342.mediatracker.data.model.Media
 import edu.metrostate.ics342.mediatracker.data.network.DefaultMediaRepository
-import edu.metrostate.ics342.mediatracker.data.network.LibraryResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

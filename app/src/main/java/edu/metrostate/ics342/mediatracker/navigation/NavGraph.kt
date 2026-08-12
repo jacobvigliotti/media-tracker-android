@@ -18,6 +18,7 @@ import edu.metrostate.ics342.mediatracker.ui.auth.RegisterScreen
 import edu.metrostate.ics342.mediatracker.ui.connections.ConnectionsScreen
 import edu.metrostate.ics342.mediatracker.ui.detail.MediaDetailScreen
 import edu.metrostate.ics342.mediatracker.ui.library.LibraryScreen
+import edu.metrostate.ics342.mediatracker.ui.library.PrioritiesScreen
 import edu.metrostate.ics342.mediatracker.ui.profile.EditProfileScreen
 import edu.metrostate.ics342.mediatracker.ui.profile.MyProfileScreen
 import edu.metrostate.ics342.mediatracker.ui.profile.UserProfileScreen
@@ -115,7 +116,15 @@ fun MediaTrackerNavGraph(navController: NavHostController) {
 
             composable(Routes.LIBRARY) {
                 LibraryScreen(
-                    onMediaClick = { mediaId -> navController.navigate("media_detail/$mediaId") }
+                    onMediaClick = { mediaId -> navController.navigate("media_detail/$mediaId") },
+                    onPrioritiesClick = { navController.navigate("priorities")}
+                )
+            }
+
+            composable(Routes.PRIORITIES) {
+                PrioritiesScreen(
+                    onMediaClick = { mediaId -> navController.navigate("media_detail/$mediaId") },
+                    { navController.popBackStack() }
                 )
             }
 

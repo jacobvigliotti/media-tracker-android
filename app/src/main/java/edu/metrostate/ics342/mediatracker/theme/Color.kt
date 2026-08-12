@@ -5,14 +5,17 @@ import androidx.compose.ui.graphics.Color
 // Primary — indigo/violet, "reading app" feel
 val Primary            = Color(0xFF4F46E5)
 val OnPrimary          = Color(0xFFFFFFFF)
-val PrimaryContainer   = Color(0xFFE0E0FF)
-val OnPrimaryContainer = Color(0xFF1E1B4B)
+val PrimaryContainer   = Color(0xFFE0E0FF)//#E0E0FF
+val OnPrimaryContainer = Color(0xFF3730A3)//#3730A3
 
 // Secondary — warm amber
-val Secondary            = Color(0xFFD97706)
+//val Secondary            = Color(0xFFD97706)
+val Secondary            = Color(0xFF4F46E5)
 val OnSecondary          = Color(0xFFFFFFFF)
-val SecondaryContainer   = Color(0xFFFEF3C7)
-val OnSecondaryContainer = Color(0xFF78350F)
+//val SecondaryContainer   = Color(0xFFFEF3C7)
+//val OnSecondaryContainer = Color(0xFF78350F)
+val SecondaryContainer   = Color(0xFFE0E0FF)//#E0E0FF
+val OnSecondaryContainer = Color(0xFF3730A3)//#3730A3
 
 // Tertiary — teal
 val Tertiary            = Color(0xFF0D9488)
@@ -25,7 +28,7 @@ val Background      = Color(0xFFFAFAFF)
 val OnBackground    = Color(0xFF1A1A2E)
 val Surface         = Color(0xFFFFFFFF)
 val OnSurface       = Color(0xFF1A1A2E)
-val SurfaceVariant  = Color(0xFFE8E8F0)
+val SurfaceVariant  = Color(0xF1F5F9FF)
 val OnSurfaceVariant= Color(0xFF44475A)
 val Outline         = Color(0xFF9CA3AF)
 
