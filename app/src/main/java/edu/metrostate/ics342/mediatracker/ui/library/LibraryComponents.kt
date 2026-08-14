@@ -2,6 +2,7 @@ package edu.metrostate.ics342.mediatracker.ui.library
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
@@ -24,12 +26,15 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -63,6 +68,7 @@ import edu.metrostate.ics342.mediatracker.theme.SurfaceVariant
     ) {
         var menuExpanded by remember { mutableStateOf(false) }
         var statusDialogVisible by remember { mutableStateOf(false) }
+        var showPriorityDialog by remember { mutableStateOf(false) }
 
         if (statusDialogVisible) {
             AlertDialog(
@@ -84,6 +90,16 @@ import edu.metrostate.ics342.mediatracker.theme.SurfaceVariant
                 }
             )
         }
+    if (showPriorityDialog) {
+        AddPriorityDialog(
+            onDismiss = {
+                showPriorityDialog = false
+            },
+            onConfirm = { priority, estimatedTimeHours, notes ->
+                showPriorityDialog = false
+            }
+        )
+    }
 
         Card(
             modifier  = Modifier
@@ -151,11 +167,12 @@ import edu.metrostate.ics342.mediatracker.theme.SurfaceVariant
                     ) {
                         DropdownMenuItem(
                             text    = { Text(stringResource(edu.metrostate.ics342.mediatracker.R.string.action_add_to_priorities)) },
-                            onClick = { menuExpanded = false; onPrioritize() }
+                            onClick = { menuExpanded = false; showPriorityDialog = true/*onPrioritize()*/ }
                         )
                         DropdownMenuItem(
                             text    = { Text(stringResource(edu.metrostate.ics342.mediatracker.R.string.action_change_status)) },
                             onClick = { menuExpanded = false; statusDialogVisible = true }
+
                         )
                         DropdownMenuItem(
                             text    = { Text(stringResource(edu.metrostate.ics342.mediatracker.R.string.action_remove_from_library),
@@ -189,4 +206,79 @@ fun Pill(
             style = MaterialTheme.typography.labelMedium
         )
     }
+}
+
+@Composable
+fun AddPriorityDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (
+        priority: Int?,
+        estimatedTimeHours: Int?,
+        notes: String?
+    ) -> Unit
+) {
+    var priority by remember { mutableStateOf("") }
+    var estimatedTimeHours by remember { mutableStateOf("") }
+    var notes by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text("Add to Priorities")
+        },
+        text = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                var selectedType by remember { mutableStateOf("")}
+                PriorityFilterChips(
+                    selectedType = selectedType,
+                    onTypeSelect = { newType ->
+                        selectedType = newType
+                    }
+                )
+
+                Column {
+
+                    var estimatedTimeHours by remember { mutableFloatStateOf(0f) }
+                    Column {
+                        Slider(
+                            value = estimatedTimeHours,
+                            onValueChange = { estimatedTimeHours = it },
+                            valueRange = 0.5f..8.0f,
+                            steps = 14
+                        )
+                        Text(text = "Estimated Time: %.1f".format(estimatedTimeHours) + " hours")
+                    }
+
+                }
+
+                OutlinedTextField(
+                    value = notes,
+                    onValueChange = { notes = it },
+                    label = { Text("Notes") }
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    onConfirm(
+                        priority.toIntOrNull(),
+                        estimatedTimeHours.toIntOrNull(),
+                        notes.ifBlank { null }
+                    )
+                }
+            ) {
+                Text("Add")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onDismiss
+            ) {
+                Text("Cancel")
+            }
+        }
+    )
 }

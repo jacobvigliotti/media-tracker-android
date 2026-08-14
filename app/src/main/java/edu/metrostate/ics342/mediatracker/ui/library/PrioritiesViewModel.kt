@@ -2,20 +2,19 @@ package edu.metrostate.ics342.mediatracker.ui.library
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import edu.metrostate.ics342.mediatracker.data.datastore.DefaultSessionRepository
-import edu.metrostate.ics342.mediatracker.data.model.LibraryItem
 import edu.metrostate.ics342.mediatracker.data.model.PriorityItem
 import edu.metrostate.ics342.mediatracker.data.network.DefaultMediaRepository
+import edu.metrostate.ics342.mediatracker.data.network.UpdatePriorityOrderRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.collections.emptyList
-import org.burnoutcrew.reorderable.*
+
 
 class PrioritiesViewModel(application: Application) : AndroidViewModel(application) {
+
 
     private val mediaRepository = DefaultMediaRepository(DefaultSessionRepository(application))
 
@@ -41,5 +40,27 @@ class PrioritiesViewModel(application: Application) : AndroidViewModel(applicati
 
 
     fun onTypeSelect(type: String) { _selectedType.value = type }
+
+    fun updatePriorityOrder(items: List<PriorityItem>) {
+        viewModelScope.launch {
+            val requests = items.mapIndexed { index, item ->
+                UpdatePriorityOrderRequest(
+                    mediaId = item.mediaId,
+                    orderIndex = index
+                )
+            }
+
+            requests.forEach { request ->
+                mediaRepository.updatePriorityOrder(request)
+            }
+
+            // Update local state after successful API calls
+            _priorityItems.value = items.mapIndexed { index, item ->
+                item.copy(orderIndex = index)
+            }
+        }
+    }
+
+
 
 }

@@ -2,20 +2,16 @@ package edu.metrostate.ics342.mediatracker.ui.library
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.metrostate.ics342.mediatracker.data.FakeMediaRepository
 import edu.metrostate.ics342.mediatracker.data.datastore.DefaultSessionRepository
 import edu.metrostate.ics342.mediatracker.data.model.LibraryItem
 import edu.metrostate.ics342.mediatracker.data.model.LibraryStatus
 import edu.metrostate.ics342.mediatracker.data.network.DefaultMediaRepository
 import edu.metrostate.ics342.mediatracker.data.network.UpdatePriorityOrderRequest
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.system.measureTimeMillis
 
 class LibraryViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -31,6 +27,9 @@ class LibraryViewModel(application: Application) : AndroidViewModel(application)
     private val _filterState = MutableStateFlow(LibraryStatus.WANT_TO)
     val filterState: StateFlow<LibraryStatus> = _filterState.asStateFlow()
 
+    private val _priorityCount = MutableStateFlow(5)
+    val priorityCount: StateFlow<Int> = _priorityCount.asStateFlow()
+
 
 
     init {
@@ -41,6 +40,7 @@ class LibraryViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             _isLoading.value = true
             _libraryItems.value = mediaRepository.getLibrary("want_to")
+            _priorityCount.value = mediaRepository.getPriorities().size
             _isLoading.value = false
         }
     }
@@ -63,7 +63,10 @@ class LibraryViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             _isLoading.value = true
             mediaRepository.updatePriorityOrder(UpdatePriorityOrderRequest(mediaId))
+            loadLibrary()
             _isLoading.value = false
         }
     }
+
+
 }

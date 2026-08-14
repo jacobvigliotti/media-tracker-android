@@ -13,7 +13,7 @@ data class PriorityResponse(
 
 @Serializable
 data class UpdatePriorityOrderRequest(
-    val mediaId: Int,
+    val mediaId: Int?,
     val priority: Int? = null,
     val orderIndex: Int? = null,
     val estimatedTimeHours: Int? = null,
